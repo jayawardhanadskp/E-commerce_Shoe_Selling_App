@@ -1,4 +1,6 @@
 import 'package:ecommerce_app/home_page.dart';
+import 'package:ecommerce_app/profile_page.dart';
+import 'package:ecommerce_app/settings_page.dart';
 import 'package:flutter/material.dart';
 
 class FirstPage extends StatefulWidget {
@@ -9,6 +11,21 @@ class FirstPage extends StatefulWidget {
 }
 
 class _FirstPageState extends State<FirstPage> {
+
+  int _selectedIndex = 0;
+
+  void _navigateBottomBar(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  final List _pages = [
+    HomePage(),
+    ProfilePage(),
+    SettingsPage(),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,32 +37,28 @@ class _FirstPageState extends State<FirstPage> {
         backgroundColor: Colors.blue,
         iconTheme: IconThemeData(color: Colors.white),
       ),
-      drawer: Drawer(
-        backgroundColor: Colors.blue.shade50,
-        child: Column(
-          children: [
-            DrawerHeader(
-                child: Icon(
-              Icons.favorite,
-              size: 50,
-              color: Colors.pink,
-            )),
 
-            ListTile(
-              leading: Icon(Icons.home),
-              title: Text('H O M E'),
-              onTap:() {Navigator.pushNamed(context, '/homepage');}
-            ),
+      body: _pages[_selectedIndex],
 
-            ListTile(
-              leading: Icon(Icons.settings),
-              title: Text('S E T T I N G S'),
-              onTap: () {
-                Navigator.pushNamed(context, '/settingspage');
-              },
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        onTap: _navigateBottomBar,
+        items: [
+          BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+            label: 'Home'
+          ),
+
+          BottomNavigationBarItem(
+              icon: Icon(Icons.person),
+              label: 'Profile'
+          ),
+
+          BottomNavigationBarItem(
+              icon: Icon(Icons.settings),
+              label: 'Settings'
             )
-          ],
-        ),
+        ],
       ),
     );
   }
